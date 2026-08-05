@@ -1,121 +1,180 @@
 <!doctype html>
 <html lang="ckb" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#05050a" />
-  <meta name="description" content="دیارییەکی تایبەت بۆ شیرین" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08050f">
+  <meta name="description" content="دیارییەکی تایبەت و ڕۆمانسی بۆ شیرین">
+  <meta name="color-scheme" content="dark">
   <title>بۆ تۆ ❤️</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=20260805-premium-2">
 </head>
 <body>
-  <div class="loading" id="loading">
-    <div class="loading-moon"></div>
-    <p>ئامادەکردنی دیارییەکەت...</p>
-  </div>
+  <noscript>
+    <div class="noscript">بۆ بینینی ئەم دیارییە، JavaScript چالاک بکە.</div>
+  </noscript>
 
-  <main class="experience" id="experience">
-    <div class="sky"></div>
-    <div class="stars" id="stars"></div>
-    <div class="aurora"></div>
-    <div class="moon"></div>
-    <div class="progress"><span id="progressBar"></span></div>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="aurora aurora-a" aria-hidden="true"></div>
+  <div class="aurora aurora-b" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"><span></span></div>
+  <div id="shootingStars" class="shooting-stars" aria-hidden="true"></div>
+  <div id="floatingHearts" class="floating-hearts" aria-hidden="true"></div>
+  <div id="heartRain" class="heart-rain" aria-hidden="true"></div>
+  <div id="cursorGlow" class="cursor-glow" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="cinema-bar cinema-bar-top" aria-hidden="true"></div>
+  <div class="cinema-bar cinema-bar-bottom" aria-hidden="true"></div>
 
-    <section class="scene active" data-scene="0">
-      <div class="gift-stage">
-        <div class="gift-box" id="giftBox" aria-hidden="true">
-          <div class="gift-lid"><span></span></div>
-          <div class="gift-body"><span></span></div>
-          <div class="gift-glow"></div>
+  <main id="app" class="app" aria-live="polite">
+    <div class="top-ui">
+      <div class="brand">بۆ تۆ <span>❤️</span></div>
+      <div class="story-count" id="storyCount">٠١ / ٠٩</div>
+    </div>
+    <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+
+    <section class="scene scene-loading is-active" data-scene="0" aria-label="ئامادەکردنی دیاری">
+      <div class="loading-orbit" aria-hidden="true">
+        <span class="loading-moon"></span>
+        <i class="orbit-dot orbit-dot-a"></i>
+        <i class="orbit-dot orbit-dot-b"></i>
+        <i class="orbit-dot orbit-dot-c"></i>
+      </div>
+      <p class="scene-kicker">چاوەڕێیەکی بچووک</p>
+      <h1>ئامادەکردنی دیارییەکەت...</h1>
+      <div class="loading-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+    </section>
+
+    <section class="scene" data-scene="1" aria-label="سندووقی دیاری">
+      <div class="scene-shell wide-shell">
+        <div class="scene-copy">
+          <p class="scene-kicker">یەک دیاری، بۆ یەک کەس</p>
+          <h2>هەندێک دیاری تەنها بۆ کەسێکی زۆر تایبەت دروست دەکرێن.</h2>
+          <p class="scene-description">ئەمە تەنها بۆ تۆیە... 🥺❤️</p>
         </div>
-        <p class="kicker">تەنها بۆ یەک کەس</p>
-        <h1>دیارییەکی تایبەتم بۆت هەیە</h1>
-        <p class="lead">هەندێک دیاری تەنها بۆ کەسێکی تایبەت دروست دەکرێن...</p>
-        <button class="primary" id="openGift">کردنەوەی دیاری 🎁</button>
-      </div>
-    </section>
-
-    <section class="scene" data-scene="1">
-      <div class="envelope-wrap">
-        <button class="envelope" id="openEnvelope" aria-label="کردنەوەی پاکەت">
-          <span class="flap"></span><span class="paper-peek">بۆ کەسی من... ❤️</span><span class="seal">م</span>
+        <button id="giftBox" class="gift-box" type="button" aria-label="کردنەوەی سندووقی دیاری">
+          <span class="gift-shadow"></span>
+          <span class="gift-lid">
+            <span class="gift-lid-top"></span>
+            <span class="gift-ribbon-lid"></span>
+            <span class="gift-bow"><i></i><i></i><b></b></span>
+          </span>
+          <span class="gift-body">
+            <span class="gift-ribbon-body"></span>
+            <span class="gift-glow"></span>
+          </span>
+          <span class="gift-sparkles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         </button>
-        <h2>پاکەتێک لە ناو دیارییەکەدا هەیە...</h2>
-        <p class="lead">کرتە لە پاکەتەکە بکە.</p>
+        <button id="openGiftBtn" class="primary-btn pulse-btn" type="button"><span>کردنەوەی دیاری</span><b>🎁</b></button>
       </div>
     </section>
 
-    <section class="scene" data-scene="2">
-      <div class="glass-card auth-card" id="authCard">
-        <p class="kicker">پرسیارێکی نهێنی</p>
+    <section class="scene" data-scene="2" aria-label="پاکەتی نامە">
+      <div class="scene-shell">
+        <p class="scene-kicker">لە ناو سندووقەکە</p>
+        <h2>نامەیەک هەیە کە تەنها تۆ دەتوانیت بیکەیتەوە.</h2>
+        <button id="envelope" class="envelope" type="button" aria-label="کردنەوەی پاکەت">
+          <span class="envelope-back"></span>
+          <span class="letter-preview"><small>بۆ</small><strong>کەسی من...</strong><em>❤️</em></span>
+          <span class="envelope-front"></span>
+          <span class="envelope-flap"></span>
+          <span class="wax-seal"><i>م</i></span>
+        </button>
+        <p class="tap-hint">کرتە لە مۆمەکە بکە تا نامەکە بکرێتەوە</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="3" aria-label="پرسیاری نهێنی">
+      <div id="passwordCard" class="glass-card password-card">
+        <div class="lock-emblem" aria-hidden="true"><span>🔐</span><i></i></div>
+        <p class="scene-kicker">پێش ئەوەی بەردەوام بیت</p>
         <h2>کێ کەسی منە؟ 🥺</h2>
-        <form id="answerForm">
-          <input id="answerInput" autocomplete="off" placeholder="وەڵامەکە بنووسە..." />
-          <p class="error" id="answerError"></p>
-          <button class="primary" type="submit">پشکنین ❤️</button>
+        <p class="scene-description">تەنها ئەو کەسە دەتوانێت ئەم دیارییە بکاتەوە کە وەڵامەکە بزانێت.</p>
+        <form id="passwordForm" class="password-form" novalidate>
+          <label for="passwordInput">وەڵامەکە</label>
+          <div class="input-frame">
+            <input id="passwordInput" name="answer" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="ناوەکە بنووسە...">
+            <span class="input-shine" aria-hidden="true"></span>
+          </div>
+          <p id="passwordMessage" class="form-message" role="status"></p>
+          <button class="primary-btn" type="submit"><span>پشکنین</span><b>❤️</b></button>
         </form>
       </div>
     </section>
 
-    <section class="scene" data-scene="3">
-      <div class="welcome-sequence">
-        <div class="pulse-heart">❤️</div>
-        <h2 id="welcomeText">بەخێربێیت، شیرین... ❤️</h2>
-        <p class="cinematic-line" id="cinematicLine">لەوانەیە وشەکانم نەتوانن هەموو هەستم بڵێن...</p>
-        <button class="primary" id="toQuestion">بەردەوام بە</button>
+    <section class="scene scene-welcome" data-scene="4" aria-label="بەخێرهاتن">
+      <div class="welcome-heart" aria-hidden="true"><span>❤️</span><i></i><b></b></div>
+      <div class="cinematic-lines" id="welcomeLines">
+        <p>بەخێربێیت، شیرین... ❤️</p>
+        <p>لەوانەیە وشەکانم نەتوانن هەموو هەستم بڵێن...</p>
+        <p>بەڵام دڵم دەتوانێت.</p>
+        <p>لەبەر ئەوە تەنها یەک پرسیارم لێتە...</p>
       </div>
+      <button id="toQuestionBtn" class="primary-btn hidden-action" type="button"><span>پرسیارەکە</span><b>💗</b></button>
     </section>
 
-    <section class="scene" data-scene="4">
-      <div class="question-stage">
-        <div class="pulse-heart large">💗</div>
-        <p class="kicker">تەنها یەک پرسیار</p>
-        <h2>منت خۆش دەوێت؟ 🥺❤️</h2>
-        <p class="status" id="statusText"></p>
-        <div class="choice-area" id="choiceArea">
-          <button class="primary yes" id="yesBtn">❤️ بەڵێ</button>
-          <button class="secondary no" id="noBtn">💔 نەخێر</button>
+    <section class="scene" data-scene="5" aria-label="یاریی خۆشەویستی">
+      <div class="love-stage" id="loveStage">
+        <div class="heartbeat-halo" aria-hidden="true"><span></span><i></i><b></b></div>
+        <p class="scene-kicker">پرسیارەکەم زۆر سادەیە</p>
+        <h2 class="love-question">منت خۆش دەوێت؟ 🥺❤️</h2>
+        <p id="gameMessage" class="game-message">بەڵام وەڵامەکە بۆ من هەموو دونیایە...</p>
+        <div id="gameArea" class="game-area">
+          <button id="yesBtn" class="choice-btn yes-btn" type="button"><span>بەڵێ</span><b>❤️</b></button>
+          <button id="noBtn" class="choice-btn no-btn" type="button"><span>نەخێر</span><b>💔</b></button>
         </div>
       </div>
+      <div id="noInterlude" class="no-interlude" aria-hidden="true"><span class="broken-heart">💔</span><p>دڵم هێندە بە ئاسانی وەڵامی «نەخێر» قبوڵ ناکات... 🥺</p></div>
     </section>
 
-    <section class="scene" data-scene="5">
-      <div class="success-stage">
-        <div class="pulse-heart huge">❤️</div>
-        <h2>ئێستا دڵم ئارام بوو... 🥺</h2>
-        <p class="lead">نامەیەکم هەیە تەنها بۆ تۆ.</p>
-        <button class="primary" id="openLetter">کردنەوەی نامە 💌</button>
+    <section class="scene" data-scene="6" aria-label="نامەی خۆشەویستی">
+      <div class="yes-reveal" id="yesReveal">
+        <div class="giant-heart" aria-hidden="true"><span>❤️</span><i></i><b></b></div>
+        <p class="scene-kicker">وەڵامەکەت گەیشتە دڵم</p>
+        <h2>ئێستا دڵم ئارام بوو... 🥺❤️</h2>
+        <p class="scene-description">شتێکی ترم هەیە کە دەمەوێت بە هێواشی بیخوێنیتەوە.</p>
+        <button id="letterEnvelope" class="mini-envelope" type="button" aria-label="کردنەوەی نامە"><span class="mini-paper">نامەیەک بۆ تۆ...</span><span class="mini-flap"></span><span class="mini-seal">❤️</span></button>
+        <button id="openLetterBtn" class="primary-btn" type="button"><span>کردنەوەی نامە</span><b>💌</b></button>
       </div>
     </section>
 
-    <section class="scene letter-scene" data-scene="6">
-      <article class="letter" id="letter">
-        <div class="letter-head">بۆ شیرین ❤️</div>
-        <p>شیرین، لەوانەیە زۆرجار نەمتوانیبێت هەموو ئەو هەستانەی ناو دڵم بە وشە بڵێم، بەڵام هەر جارێک بیرت دەکەمەوە دڵم پڕ دەبێت لە ئارامی و خۆشی.</p>
-        <p>تۆ بۆ من تەنها کەسێک نیت؛ تۆ ئەو کەسەیت کە بوونت واتایەکی جوانتر بە ڕۆژەکانم دەدات. هەر ساتێک لەگەڵت، یادگارییەکە کە دەمەوێت هەمیشە لە دڵمدا بمێنێتەوە.</p>
-        <p>ئەگەر هەزار جار هەڵبژاردنم هەبێت، هەر تۆ هەڵدەبژێرم؛ چونکە هیچ کەسێک ناتوانێت ئەو شوێنە تایبەتەی تۆ لە دڵمدا پڕ بکاتەوە.</p>
-        <p>دەمەوێت هەمیشە ببینم پێدەکەنیت، دڵت ئارامە و بزانیت لە هەر ساتێکدا پێویستت بە من بێت، لە تەنیشتت دەبم.</p>
-        <p>سوپاس بۆ ئەوەی هەیت، بۆ هەموو ئەو خولەکانەی جوانترت کردوون لە ژیانم، و بۆ ئەوەی ناوی تۆ هەمیشە بە خۆشی لە دڵمدا دێت.</p>
-        <p class="signature">لەگەڵ هەموو خۆشەویستیم...<br>محمد ❤️</p>
-        <button class="primary" id="finishBtn">کۆتایی 🌹</button>
-      </article>
+    <section class="scene letter-scene" data-scene="7" aria-label="نامەی درێژ">
+      <div class="letter-wrap">
+        <header class="letter-header"><p class="scene-kicker">نامەیەک لە دڵەوە</p><h2>بۆ شیرین ❤️</h2><span>هێواش بخوێنەرەوە...</span></header>
+        <article id="letterPaper" class="letter-paper">
+          <div class="paper-grain" aria-hidden="true"></div>
+          <p class="reveal-paragraph">شیرین،</p>
+          <p class="reveal-paragraph">لەوانەیە زۆرجار نەمتوانیبێت هەموو ئەو هەستانەی ناو دڵم بە وشە بڵێم، بەڵام هەر جارێک بیرت دەکەمەوە، دڵم پڕ دەبێت لە ئارامی و خۆشی.</p>
+          <p class="reveal-paragraph">تۆ بۆ من تەنها کەسێک نیت؛ تۆ ئەو کەسەیت کە بوونت ڕۆژە ئاساییەکانم جوانتر دەکات و بێدەنگییەکانم واتادارتر.</p>
+          <p class="reveal-paragraph">هەر قسەیەکت، هەر پێکەنینێکت و هەر ساتێک کە بیرت دێتەوە، بۆ من وەک یادگارییەکی بچووکە کە دڵم نایەوێت لەدەستی بدات.</p>
+          <p class="reveal-paragraph">ئەگەر هەزار جار هەڵبژاردنم هەبێت، هەر جار تۆ هەڵدەبژێرم؛ نەک لەبەر ئەوەی کامڵیت، بەڵکو لەبەر ئەوەی لەگەڵ تۆدا دڵم هەست بە ماڵ دەکات.</p>
+          <p class="reveal-paragraph">دەمەوێت هەمیشە بزانیت کە خۆشحاڵیی تۆ بۆ من گرنگە. دەمەوێت کاتێک دڵتەنگیت، پاڵپشتت بم؛ کاتێک خۆشحاڵیت، لەگەڵت پێبکەنم؛ و کاتێک بێدەنگیت، تەنها لە تەنیشتت بم.</p>
+          <p class="reveal-paragraph">سوپاس بۆ ئەوەی هەیت، بۆ ئەوەی بە بوونت شتێکی جوانترت زیاد کردووە بە ژیانم، و بۆ ئەوەی ناوت لە ناو دڵمدا جێگایەکی تایبەتی هەیە.</p>
+          <p class="reveal-paragraph">هیچ نامەیەک ناتوانێت هەموو ئەوەی دڵم هەیەتی بڵێت، بەڵام ئەم نامەیە یەک شتی ڕوون دەڵێت:</p>
+          <p class="reveal-paragraph letter-emphasis">تۆ جوانترین دیاری ژیانمی. ❤️</p>
+          <p class="reveal-paragraph">هەمیشە جێگای تایبەتت لە دڵمدا هەیە، و هەمیشە دەمەوێت پێکەنینت ببینم.</p>
+          <div class="letter-signature reveal-paragraph"><span>لەگەڵ هەموو خۆشەویستیم...</span><strong>محمد ❤️</strong></div>
+          <div class="letter-rose reveal-paragraph" aria-hidden="true">🌹</div>
+        </article>
+        <button id="endingBtn" class="primary-btn ending-btn" type="button"><span>کۆتایی</span><b>❤️</b></button>
+      </div>
     </section>
 
-    <section class="scene" data-scene="7">
-      <div class="final-stage">
-        <div class="final-moon"></div>
-        <h2>تۆ جوانترین دیاری ژیانمی ❤️</h2>
-        <p>سوپاس بۆ ئەوەی هەیت...</p>
-        <p>هەمیشە خۆشم دەوێیت. 🌹</p>
-        <button class="secondary" id="restartBtn">دووبارە بینینەوە</button>
-      </div>
+    <section class="scene ending-scene" data-scene="8" aria-label="کۆتایی">
+      <div class="ending-moon" aria-hidden="true"><span></span></div>
+      <div class="ending-copy" id="endingCopy"><p>تۆ جوانترین دیاری ژیانمی. ❤️</p><p>سوپاس بۆ ئەوەی هەیت...</p><p>هەمیشە خۆشم دەوێیت. 🌹</p><small>لەگەڵ هەموو خۆشەویستیم — محمد</small></div>
+      <button id="replayBtn" class="ghost-btn" type="button">دووبارە بینینەوە</button>
+      <div id="finalHeart" class="final-heart" aria-hidden="true">❤️</div>
     </section>
   </main>
 
-  <div class="toast" id="toast"></div>
-  <script src="app.js"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=20260805-premium-2" defer></script>
 </body>
 </html>
