@@ -1,0 +1,4 @@
+Bo-to Premium rebuild
+Version: 2026-08-05-02
+Production files: index.html, style.css, app.js
+Cloudflare should deploy this commit from the selected production branch.
