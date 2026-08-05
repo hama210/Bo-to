@@ -15,13 +15,6 @@
 
 ## Cloudflare Pages
 
-لە Cloudflare Dashboard:
-
-1. Workers & Pages → Create → Pages → Connect to Git
-2. repository ـی `hama210/Bo-to` هەڵبژێرە
-3. Framework preset: `None`
-4. Build command: بەتاڵ
-5. Build output directory: `/`
-6. Deploy
+پڕۆژەکە بە repository ـی `hama210/Bo-to` پەیوەستە و هەر commit ـێکی نوێ deploy ـێکی نوێ دەست پێ دەکات.
 
 پڕۆژەکە static ـە و تەنها `index.html` بەکاردەهێنێت.
