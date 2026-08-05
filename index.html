@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#08050d" />
+  <meta name="description" content="دیارییەکی تایبەت بۆ شیرین" />
+  <title>بۆ تۆ ❤️</title>
+  <style>
+    :root{
+      --bg:#07040b;--bg2:#120919;--card:rgba(21,12,29,.68);--line:rgba(255,255,255,.11);
+      --text:#fff8fc;--muted:#d9bfd0;--pink:#ff5f9e;--pink2:#ff8fbd;--violet:#9e77ff;
+      --danger:#ff6b87;--shadow:0 24px 80px rgba(0,0,0,.52);--radius:28px
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;overflow-x:hidden}
+    body{min-height:100svh}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .app{position:relative;min-height:100svh;display:grid;place-items:center;padding:24px;isolation:isolate}
+    .sky,.stars,.nebula,.vignette,.hearts-bg{position:fixed;inset:0;pointer-events:none}
+    .sky{z-index:-6;background:
+      radial-gradient(circle at 18% 15%,rgba(158,119,255,.18),transparent 30%),
+      radial-gradient(circle at 80% 80%,rgba(255,95,158,.16),transparent 34%),
+      linear-gradient(145deg,#050307,#0c0612 48%,#18091b)}
+    .nebula{z-index:-5;background:
+      radial-gradient(ellipse at 70% 20%,rgba(255,95,158,.08),transparent 38%),
+      radial-gradient(ellipse at 20% 80%,rgba(158,119,255,.09),transparent 40%);filter:blur(18px)}
+    .vignette{z-index:5;box-shadow:inset 0 0 180px rgba(0,0,0,.88)}
+    .stars{z-index:-4;overflow:hidden}
+    .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.15;animation:twinkle var(--d) ease-in-out infinite}
+    @keyframes twinkle{50%{opacity:.95;transform:scale(1.8)}}
+    .moon{position:fixed;top:7vh;left:8vw;width:68px;height:68px;border-radius:50%;z-index:-3;
+      background:radial-gradient(circle at 35% 30%,#fff,#edd7f8 55%,#b799ca 100%);
+      box-shadow:0 0 34px rgba(235,205,255,.35),0 0 90px rgba(185,120,255,.16);
+      animation:floatMoon 7s ease-in-out infinite}
+    .moon:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:rgba(130,93,160,.15);top:17px;left:14px;box-shadow:23px 14px 0 -4px rgba(130,93,160,.13),8px 34px 0 -6px rgba(130,93,160,.11)}
+    @keyframes floatMoon{50%{transform:translateY(10px) rotate(3deg)}}
+    .card{width:min(100%,560px);min-height:520px;padding:30px;border:1px solid var(--line);border-radius:var(--radius);
+      background:linear-gradient(155deg,rgba(33,18,43,.82),rgba(11,7,17,.68));
+      backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:var(--shadow);
+      position:relative;overflow:hidden}
+    .card:before{content:"";position:absolute;inset:-2px;background:linear-gradient(125deg,rgba(255,255,255,.16),transparent 28%,transparent 72%,rgba(255,95,158,.12));z-index:-1;border-radius:inherit}
+    .screen{display:none;min-height:458px;text-align:center;align-items:center;justify-content:center;flex-direction:column;animation:screenIn .65s cubic-bezier(.2,.8,.2,1)}
+    .screen.active{display:flex}
+    @keyframes screenIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+    .eyebrow{font-size:.88rem;color:var(--pink2);letter-spacing:.04em;margin-bottom:10px}
+    h1,h2,p{margin-top:0}
+    h1{font-size:clamp(2rem,7vw,3.4rem);line-height:1.2;margin-bottom:14px}
+    h2{font-size:clamp(1.6rem,6vw,2.55rem);line-height:1.35;margin-bottom:12px}
+    .lead{color:var(--muted);font-size:1.05rem;line-height:2;max-width:430px;margin-bottom:24px}
+    .heart-orbit{width:132px;height:132px;position:relative;margin-bottom:18px;display:grid;place-items:center}
+    .heart-main{font-size:70px;filter:drop-shadow(0 0 24px rgba(255,95,158,.55));animation:heartbeat 1.5s ease-in-out infinite}
+    .heart-orbit:before,.heart-orbit:after{content:"";position:absolute;border:1px solid rgba(255,143,189,.25);border-radius:50%;inset:8px;animation:orbit 7s linear infinite}
+    .heart-orbit:after{inset:-8px;border-style:dashed;animation-direction:reverse;animation-duration:11s}
+    @keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.08)}}
+    @keyframes orbit{to{transform:rotate(360deg)}}
+    .btn{border:0;border-radius:999px;padding:14px 24px;min-width:160px;color:#fff;font-weight:800;transition:.25s transform,.25s box-shadow,.25s opacity;background:linear-gradient(135deg,var(--pink),#d94386);box-shadow:0 12px 28px rgba(255,95,158,.28)}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(255,95,158,.38)}
+    .btn:active{transform:translateY(1px) scale(.98)}
+    .btn.secondary{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);box-shadow:none}
+    .btn.no{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);box-shadow:none;position:relative}
+    .form{width:100%;max-width:390px}
+    .question{margin:8px 0 18px;font-size:1.55rem}
+    .input-wrap{position:relative}
+    input{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.23);color:#fff;border-radius:18px;padding:17px 18px;outline:none;text-align:center}
+    input:focus{border-color:rgba(255,95,158,.75);box-shadow:0 0 0 4px rgba(255,95,158,.1)}
+    .hint{font-size:.83rem;color:#ad94a5;margin-top:9px}
+    .error{height:24px;color:#ff9ab0;font-size:.9rem;margin:10px 0 5px}
+    .shake{animation:shake .42s}
+    @keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+    .game-area{width:100%;min-height:190px;position:relative;margin-top:14px}
+    .buttons{display:flex;gap:14px;justify-content:center;align-items:center;min-height:90px}
+    .status{min-height:34px;color:var(--pink2);font-weight:700}
+    .letter-card{width:100%;text-align:right;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:22px;line-height:2.15;color:#f8eaf2;max-height:300px;overflow:auto;scrollbar-width:thin}
+    .signature{text-align:left;color:var(--pink2);font-weight:800;margin-top:16px}
+    .final-line{font-size:clamp(1.65rem,6vw,2.5rem);color:#fff;margin:18px 0 8px;text-shadow:0 0 25px rgba(255,95,158,.4)}
+    .small{font-size:.86rem;color:#bca3b4}
+    .progress{position:absolute;top:18px;right:22px;left:22px;height:4px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
+    .progress>span{display:block;height:100%;width:20%;background:linear-gradient(90deg,var(--violet),var(--pink));transition:width .5s ease}
+    .heart-drop{position:fixed;top:-50px;z-index:9;pointer-events:none;animation:fall linear forwards;filter:drop-shadow(0 0 10px rgba(255,95,158,.28))}
+    @keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(540deg);opacity:.05}}
+    .float-heart{position:absolute;bottom:-40px;opacity:.11;animation:rise linear infinite}
+    @keyframes rise{to{transform:translateY(-115vh) rotate(360deg);opacity:0}}
+    .spark{position:fixed;width:8px;height:8px;border-radius:50%;z-index:12;pointer-events:none;animation:spark 900ms ease-out forwards}
+    @keyframes spark{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+    .reveal{animation:reveal 1s both}
+    @keyframes reveal{from{opacity:0;filter:blur(12px);transform:scale(.96)}to{opacity:1;filter:none;transform:none}}
+    @media(max-width:600px){
+      .app{padding:12px}.card{padding:24px 18px;min-height:560px;border-radius:24px}.screen{min-height:508px}
+      .moon{width:48px;height:48px}.buttons{gap:10px}.btn{min-width:132px;padding:13px 18px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="sky"></div><div class="nebula"></div><div class="stars" id="stars"></div>
+    <div class="moon" aria-hidden="true"></div><div class="hearts-bg" id="heartsBg"></div><div class="vignette"></div>
+
+    <section class="card" id="card" aria-live="polite">
+      <div class="progress"><span id="progressBar"></span></div>
+
+      <div class="screen active" data-screen="0">
+        <div class="heart-orbit"><div class="heart-main">❤️</div></div>
+        <div class="eyebrow">بۆ تۆ</div>
+        <h1>دیارییەکی تایبەتم بۆت هەیە</h1>
+        <p class="lead">هەموو دیارییەکان بۆ هەموو کەسێک نین… ئەمە تەنها بۆ یەک کەسە. 🥺</p>
+        <button class="btn" id="startBtn">کردنەوەی دیاری 🎁</button>
+      </div>
+
+      <div class="screen" data-screen="1">
+        <div class="heart-orbit"><div class="heart-main">🔐</div></div>
+        <div class="eyebrow">پرسیارێکی نهێنی</div>
+        <h2 class="question">کێ کەسی منە؟ 🥺</h2>
+        <form class="form" id="passwordForm">
+          <div class="input-wrap"><input id="answer" autocomplete="off" placeholder="وەڵامەکە لێرە بنووسە…" aria-label="وەڵام" /></div>
+          <div class="hint">پیتی گەورە و بچووک جیاواز نییە</div>
+          <div class="error" id="error"></div>
+          <button class="btn" type="submit">کردنەوە ❤️</button>
+        </form>
+      </div>
+
+      <div class="screen" data-screen="2">
+        <div class="heart-orbit"><div class="heart-main">🥺</div></div>
+        <div class="eyebrow">کەسی من</div>
+        <h2>پرسیارێکم لێتە…</h2>
+        <p class="lead">پێش ئەوەی بەردەوام بین، دەمەوێت وەڵامی ڕاستەقینەی دڵت بزانم.</p>
+        <button class="btn" id="continueBtn">بەردەوام بە</button>
+      </div>
+
+      <div class="screen" data-screen="3">
+        <div class="heart-orbit"><div class="heart-main">💗</div></div>
+        <div class="eyebrow">تەنها یەک پرسیار</div>
+        <h2>منت خۆش دەوێت؟ 🥺❤️</h2>
+        <div class="status" id="status"></div>
+        <div class="game-area" id="gameArea">
+          <div class="buttons">
+            <button class="btn" id="yesBtn">❤️ بەڵێ</button>
+            <button class="btn no" id="noBtn">💔 نەخێر</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="4">
+        <div class="heart-orbit"><div class="heart-main">💌</div></div>
+        <div class="eyebrow">نامەیەک لە دڵەوە</div>
+        <h2>کەسی من 🥺</h2>
+        <div class="letter-card" id="letter"></div>
+        <button class="btn" id="finishBtn" style="margin-top:18px">کۆتایی ❤️</button>
+      </div>
+
+      <div class="screen" data-screen="5">
+        <div class="heart-orbit"><div class="heart-main">🌹</div></div>
+        <div class="eyebrow">هەتا هەتایە</div>
+        <div class="final-line">تۆ جوانترین دیاری ژیانمی ❤️</div>
+        <p class="lead">هەمیشە جێگای تایبەتت لە دڵمدا هەیە.</p>
+        <div class="signature">لەگەڵ هەموو خۆشەویستیم… محمد</div>
+        <button class="btn secondary" id="restartBtn" style="margin-top:24px">دووبارە بینینەوە</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const CONFIG = {
+      answer: "shirin",
+      letter: [
+        "شیرین،",
+        "لەوانەیە زۆرجار نەمتوانیبێت هەموو ئەو هەستانەی ناو دڵم بە وشە بڵێم، بەڵام هەر جارێک بیرت دەکەمەوە، دڵم پڕ دەبێت لە ئارامی و خۆشی.",
+        "تۆ بۆ من تەنها کەسێک نیت؛ تۆ ئەو کەسەیت کە بوونت واتایەکی جوانتر بە ژیانم دەبەخشێت. هەر ساتێک لەگەڵت، بۆ من یادگارییەکە کە دەمەوێت هەمیشە لە دڵمدا بپارێزم.",
+        "ئەگەر هەزار جار هەڵبژاردنم هەبێت، هەر جارێک تۆ هەڵدەبژێرم؛ چونکە هیچ کەسێک ناتوانێت شوێنی تۆ بگرێتەوە.",
+        "دەمەوێت هەمیشە ببینم پێدەکەنیت، ئارامیت و دەزانیت کە لە هەر کاتێکدا پێویستت بە پاڵپشتی هەبێت، من لە تەنیشتت دەبم.",
+        "سوپاس بۆ هەموو ئەو ساتانەی کە بە بوونت جوانترت کردوون. هەمیشە جێگای تایبەتت لە دڵمدا هەیە. ❤️"
+      ]
+    };
+
+    const screens=[...document.querySelectorAll(".screen")];
+    const progress=document.getElementById("progressBar");
+    const card=document.getElementById("card");
+    let current=0,noCount=0,rainTimer;
+
+    function showScreen(index){
+      screens.forEach((s,i)=>s.classList.toggle("active",i===index));
+      current=index;
+      progress.style.width=((index+1)/screens.length*100)+"%";
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+    function seedStars(){
+      const root=document.getElementById("stars");
+      for(let i=0;i<95;i++){
+        const s=document.createElement("i");
+        s.className="star";
+        s.style.left=Math.random()*100+"%";
+        s.style.top=Math.random()*100+"%";
+        s.style.setProperty("--d",(2+Math.random()*5)+"s");
+        s.style.animationDelay=(-Math.random()*5)+"s";
+        s.style.transform=`scale(${.55+Math.random()*1.5})`;
+        root.appendChild(s);
+      }
+    }
+
+    function seedFloatingHearts(){
+      const root=document.getElementById("heartsBg");
+      const chars=["♡","♥","✦"];
+      for(let i=0;i<16;i++){
+        const h=document.createElement("span");
+        h.className="float-heart";
+        h.textContent=chars[Math.floor(Math.random()*chars.length)];
+        h.style.left=Math.random()*100+"%";
+        h.style.fontSize=(12+Math.random()*22)+"px";
+        h.style.animationDuration=(10+Math.random()*14)+"s";
+        h.style.animationDelay=(-Math.random()*20)+"s";
+        root.appendChild(h);
+      }
+    }
+
+    function sparkle(x,y){
+      for(let i=0;i<18;i++){
+        const p=document.createElement("i");
+        p.className="spark";
+        p.style.left=x+"px";p.style.top=y+"px";
+        p.style.background=i%2?"#ff77ad":"#d6b3ff";
+        const a=Math.random()*Math.PI*2,r=35+Math.random()*90;
+        p.style.setProperty("--x",Math.cos(a)*r+"px");
+        p.style.setProperty("--y",Math.sin(a)*r+"px");
+        document.body.appendChild(p);setTimeout(()=>p.remove(),950);
+      }
+    }
+
+    function heartRain(duration=7000){
+      clearInterval(rainTimer);
+      rainTimer=setInterval(()=>{
+        const h=document.createElement("div");
+        h.className="heart-drop";
+        h.textContent=Math.random()>.25?"❤️":"💗";
+        h.style.left=Math.random()*100+"vw";
+        h.style.fontSize=(14+Math.random()*22)+"px";
+        h.style.animationDuration=(3.4+Math.random()*3.8)+"s";
+        h.style.setProperty("--drift",(-60+Math.random()*120)+"px");
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),7600);
+      },115);
+      setTimeout(()=>clearInterval(rainTimer),duration);
+    }
+
+    function normalize(v){
+      return v.trim().toLowerCase().replace(/\s+/g,"");
+    }
+
+    document.getElementById("startBtn").addEventListener("click",e=>{
+      sparkle(e.clientX,e.clientY);showScreen(1);setTimeout(()=>document.getElementById("answer").focus(),500);
+    });
+
+    document.getElementById("passwordForm").addEventListener("submit",e=>{
+      e.preventDefault();
+      const input=document.getElementById("answer"),error=document.getElementById("error");
+      if(normalize(input.value)===normalize(CONFIG.answer)){
+        error.textContent="وەڵامەکە دروستە… ❤️";
+        sparkle(innerWidth/2,innerHeight/2);setTimeout(()=>showScreen(2),650);
+      }else{
+        error.textContent="ئەو وەڵامە دروست نییە… دووبارە هەوڵ بدە 🥺";
+        card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");
+        input.select();
+      }
+    });
+
+    document.getElementById("continueBtn").addEventListener("click",()=>showScreen(3));
+
+    const yesBtn=document.getElementById("yesBtn"),noBtn=document.getElementById("noBtn");
+    function dodgeNo(){
+      noCount++;
+      document.getElementById("status").textContent="🥺 دڵنیایت؟";
+      const area=document.getElementById("gameArea");
+      const maxX=Math.max(0,area.clientWidth-noBtn.offsetWidth-16);
+      const maxY=Math.max(0,area.clientHeight-noBtn.offsetHeight-8);
+      noBtn.style.position="absolute";
+      noBtn.style.left=(Math.random()*maxX)+"px";
+      noBtn.style.top=(Math.random()*maxY)+"px";
+      noBtn.style.transform=`scale(${Math.max(.52,1-noCount*.07)}) rotate(${(-8+Math.random()*16)}deg)`;
+      yesBtn.style.transform=`scale(${Math.min(1.7,1+noCount*.08)})`;
+      if(noCount>7) noBtn.textContent="😅 نابێت";
+    }
+    noBtn.addEventListener("mouseenter",dodgeNo);
+    noBtn.addEventListener("touchstart",e=>{e.preventDefault();dodgeNo()},{passive:false});
+    noBtn.addEventListener("click",dodgeNo);
+
+    yesBtn.addEventListener("click",e=>{
+      sparkle(e.clientX||innerWidth/2,e.clientY||innerHeight/2);
+      heartRain(9000);showScreen(4);typeLetter();
+    });
+
+    async function typeLetter(){
+      const box=document.getElementById("letter");box.innerHTML="";
+      const full=CONFIG.letter.join("\n\n");
+      let out="";
+      for(let i=0;i<full.length;i++){
+        out+=full[i];
+        box.textContent=out;
+        if(i%4===0) box.scrollTop=box.scrollHeight;
+        await new Promise(r=>setTimeout(r,full[i]==="\n"?16:13));
+      }
+      box.innerHTML=CONFIG.letter.map((p,i)=>`<p${i===0?' style="color:#ff9fc5;font-weight:800"':''}>${p}</p>`).join("");
+      box.scrollTop=0;
+    }
+
+    document.getElementById("finishBtn").addEventListener("click",()=>{
+      heartRain(7500);showScreen(5);
+    });
+
+    document.getElementById("restartBtn").addEventListener("click",()=>{
+      noCount=0;
+      document.getElementById("answer").value="";
+      document.getElementById("error").textContent="";
+      document.getElementById("status").textContent="";
+      noBtn.style.cssText="";noBtn.textContent="💔 نەخێر";yesBtn.style.cssText="";
+      showScreen(0);
+    });
+
+    document.addEventListener("pointerdown",e=>{
+      if(e.target.closest("button")) return;
+      if(Math.random()>.68) sparkle(e.clientX,e.clientY);
+    });
+
+    seedStars();seedFloatingHearts();showScreen(0);
+  </script>
+</body>
+</html>
